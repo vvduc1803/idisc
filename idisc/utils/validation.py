@@ -38,7 +38,7 @@ def update_best(metrics_all, metrics_best="abs_rel"):
 
 
 def save_model(
-    metrics_all, state_dict, run_save_dir, step, config, metrics_best="abs_rel"
+    metrics_all, state_dict, run_save_dir, config, metrics_best="abs_rel"
 ):
     curr_loss = []
     curr_dataset = config["data"]["train_dataset"]
@@ -48,19 +48,18 @@ def save_model(
     curr_loss = np.mean(curr_loss)
 
     if curr_loss == validate.best_loss:
-        if step > 15000:
-            try:
-                torch.save(
-                    state_dict, os.path.join(run_save_dir, f"{curr_dataset}-best.pt")
-                )
-                with open(
-                    os.path.join(run_save_dir, f"{curr_dataset}-config.json"), "w+"
-                ) as fp:
-                    json.dump(config, fp)
-            except OSError as e:
-                print(f"Error while saving model: {e}")
-            except:
-                print("Generic error while saving")
+        try:
+            torch.save(
+                state_dict, os.path.join(run_save_dir, f"{curr_dataset}-best.pt")
+            )
+            with open(
+                os.path.join(run_save_dir, f"{curr_dataset}-config.json"), "w+"
+            ) as fp:
+                json.dump(config, fp)
+        except OSError as e:
+            print(f"Error while saving model: {e}")
+        except:
+            print("Generic error while saving")
 
 
 def validate(
@@ -109,6 +108,5 @@ def validate(
                 state_dict=model.state_dict(),
                 config=config,
                 metrics_best="abs_rel",
-                run_save_dir=run_save_dir,
-                step=step,
+                run_save_dir=run_save_dir
             )
