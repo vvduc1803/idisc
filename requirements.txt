@@ -1,0 +1,15 @@
+black
+isort
+scikit-build
+mypy
+pydocstyle
+pylint
+pytest
+setuptools
+tqdm
+wheel
+scipy
+opencv-python
+einops
+matplotlib
+timm
