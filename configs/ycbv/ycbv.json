@@ -3,7 +3,7 @@
         "seed": 13
     },
     "training": {
-        "n_iters": 200,
+        "n_iters": 50000,
         "batch_size": 8,
         "validation_interval": 200,
         "nsteps_accumulation_gradient": 2,
@@ -20,8 +20,8 @@
         "crop": "eigen",
         "train_dataset": "YCBVDataset",
         "val_dataset": "YCBVDataset",
-        "train_data_root": "ycbv_dataset/train",
-        "test_data_root": "ycbv_dataset/test",
+        "train_data_root": "train_real",
+        "test_data_root": "test",
         "augmentations": {
             "horizontal_flip": 0.5,
             "random_rotation": 5,
@@ -74,7 +74,7 @@
                 640,
                 480
             ],
-            "name": "swin_base",
+            "name": "swin_tiny",
             "lr_dedicated": 2e-05
         },
         "afp": {

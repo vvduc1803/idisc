@@ -6,23 +6,26 @@ from PIL import Image
 
 
 def colorize(
-    value: np.ndarray, vmin: float = None, vmax: float = None, cmap: str = "magma_r"
+    values: np.ndarray, vmin: float = None, vmax: float = None, cmap: str = "magma_r"
 ):
-    if value.ndim > 2:
-        return value
-    invalid_mask = value == -1
+    imgs = []
+    for value in values:
+        # if value.ndim > 2:
+        #     return value
+        value = value.reshape((480, 640)).cpu()
+        invalid_mask = value == -1
 
-    # normalize
-    vmin = value.min() if vmin is None else vmin
-    vmax = value.max() if vmax is None else vmax
-    value = (value - vmin) / (vmax - vmin)  # vmin..vmax
+        # normalize
+        vmin = value.min() if vmin is None else vmin
+        vmax = value.max() if vmax is None else vmax
+        value = (value - vmin) / (vmax - vmin)  # vmin..vmax
 
-    # set color
-    cmapper = matplotlib.cm.get_cmap(cmap)
-    value = cmapper(value, bytes=True)  # (nxmx4)
-    value[invalid_mask] = 255
-    img = value[..., :3]
-    return img
+        # set color
+        cmapper = matplotlib.cm.get_cmap(cmap)
+        value = cmapper(value, bytes=True)  # (nxmx4)
+        value[invalid_mask] = 255
+        imgs.append(value[..., :3])
+    return imgs
 
 
 def image_grid(imgs: List[np.ndarray], rows: int, cols: int) -> np.ndarray:

@@ -173,7 +173,6 @@ class BaseDataset(Dataset):
         raise NotImplementedError
 
     def transform_train(self, image, gts, info=None):
-        print(gts)
         width, height = image.size
         # Horizontal flip
         if np.random.uniform(0.0, 1.0) < 0.5:
@@ -239,7 +238,7 @@ class BaseDataset(Dataset):
         image = Image.fromarray(image)
         for k, v in gts.items():
  
-            gts[k] = Image.fromarray(v.astype(np.uint8))
+            gts[k] = Image.fromarray(v)
         if not self.test_mode:
             image, gts, info = self.transform_train(image, gts, info)
 

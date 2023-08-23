@@ -23,16 +23,16 @@ class YCBVDataset(BaseDataset):
             ]
         )
     }
-    min_depth = 0.01
-    max_depth = 10
-    test_split = "ycbv_test.txt"
-    train_split = "ycbv_train.txt"
+    min_depth = 0.0
+    max_depth = 1
+    test_split = "splits/ycbv/ycbv_test.txt"
+    train_split = "splits/ycbv/ycbv_train.txt"
 
     def __init__(
             self,
             test_mode,
             base_path,
-            depth_scale=1000,
+            depth_scale=255,
             crop=None,
             benchmark=False,
             augmentations_db={},
@@ -40,7 +40,7 @@ class YCBVDataset(BaseDataset):
             normalize=True,
             **kwargs,
     ):
-        super().__init__(test_mode, base_path, benchmark, normalize)
+        super().__init__(test_mode, base_path,benchmark, normalize)
         self.test_mode = test_mode
         self.depth_scale = depth_scale
         self.crop = crop
@@ -54,7 +54,7 @@ class YCBVDataset(BaseDataset):
 
     def load_dataset(self):
         self.invalid_depth_num = 0
-        with open(os.path.join(self.base_path, self.split_file)) as f:
+        with open(os.path.join(self.split_file)) as f:
             for line in f:
                 img_info = dict()
                 if not self.benchmark:  # benchmark test
